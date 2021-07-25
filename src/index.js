@@ -2,36 +2,12 @@ module.exports = function toReadable(number) {
     let result = "";
     const stringNum = number.toString();
     const arrOnes = [
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine",
-        "ten",
-        "eleven",
-        "twelve",
-        "thirteen",
-        "fourteen",
-        "fifteen",
-        "sixteen",
-        "seventeen",
-        "eighteen",
-        "nineteen",
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
     ];
 
     const arrTens = [
-        "twenty",
-        "thirty",
-        "forty",
-        "fifty",
-        "sixty",
-        "seventy",
-        "eighty",
-        "ninety",
+        "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
     ];
 
     if (number === 0) {
@@ -45,42 +21,23 @@ module.exports = function toReadable(number) {
     }
 
     if (stringNum.length === 2 && number >= 20) {
-        for (let i = 2; i <= stringNum[0]; i++) {
-            if (i.toString() === stringNum[0]) result = `${arrTens[i - 2]}`;
-        }
-        for (let i = 0; i <= stringNum[1]; i++) {
-            if (i.toString() === stringNum[1] && stringNum[1] !== "0")
-                result = `${result} ${arrOnes[i - 1]}`;
-        }
-
-        return result;
+        result = `${arrTens[stringNum[0] - 2]} ${stringNum[1] !== "0" ? arrOnes[stringNum[1] - 1] : ""}`;
+        return stringNum[1] === "0" ? result.substring(0, result.length - 1) : result;
     }
 
     if (stringNum.length === 3) {
-        for (let i = 1; i <= stringNum[0]; i++) {
-            if (i.toString() === stringNum[0])
-                result = `${arrOnes[i - 1]} hundred`;
-        }
+        result = `${arrOnes[stringNum[0] - 1]} hundred`;
 
-        if (stringNum[1] === "1") {
-            for (let i = 10; i <= stringNum[1] + stringNum[2]; i++) {
-                if (i.toString() === stringNum[1] + stringNum[2])
-                    result = `${result} ${arrOnes[i - 1]}`;
-            }
+        if (stringNum[1] === '0' && stringNum[2] === '0') return result;
+
+        if (stringNum[1] === "1" || stringNum[1] === "0") {
+            result = `${result} ${arrOnes[stringNum[1] + stringNum[2] - 1]}`;
             return result;
-        }
+        }        
 
-        for (let i = 1; i <= stringNum[1]; i++) {
-            if (i.toString() === stringNum[1]) {
-                result = `${result} ${arrTens[i - 2]}`;
-            }
-        }
+        result = `${result} ${arrTens[stringNum[1] - 2]} ${stringNum[2] !== "0" ? arrOnes[stringNum[2] - 1] : ""}`;
 
-        for (let i = 1; i <= stringNum[2]; i++) {
-            if (i.toString() === stringNum[2])
-                result = `${result} ${arrOnes[i - 1]}`;
-        }
-
-        return result;
+        return stringNum[2] === '0' ? result.substring(0, result.length - 1) : result;
     }
+
 };
